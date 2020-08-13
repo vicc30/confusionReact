@@ -11,8 +11,8 @@ This repository includes the excercise for implementing an example website with 
 Here we implemented the following technologies:
 
 - [Reactstrap](https://reactstrap.github.io/)
-- [Reactjs] (https://reactjs.org/)
-- [Nodejs] (https://nodejs.org/)
-- [npmjs] (https://www.npmjs.com/)
-- [Yarn] (https://yarnpkg.com/)
-- [React-devtools] (https://github.com/facebook/react-devtools)
+- [Reactjs](https://reactjs.org/)
+- [Nodejs](https://nodejs.org/)
+- [npmjs](https://www.npmjs.com/)
+- [Yarn](https://yarnpkg.com/)
+- [React-devtools](https://github.com/facebook/react-devtools)
