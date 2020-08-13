@@ -39,12 +39,13 @@ class DishDetail extends Component {
     }
 
     renderComments(comments) {
+        let options = {year: "numeric", month: "short", day: "numeric"};
         const comment = comments.map((comment) => {
             if (comment != null) {
                 return (
                     <ul key={comment.id} className="list-unstyled">
                         <li>{comment.comment}</li>
-                        <li>-- {comment.author}, {comment.date.slice(0,10)}</li>
+                        <li>-- {comment.author}, {new Date(comment.date).toLocaleDateString("en-US", options)}</li>
                     </ul>
                 );
             }
