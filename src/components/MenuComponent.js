@@ -1,8 +1,6 @@
-/* Method to create component on react */
 import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody,
-    CardTitle, 
-    CardHeader} from 'reactstrap';
+import { Card, CardImg, CardTitle, CardImgOverlay } from 'reactstrap';
+import DishDetail from './DishdetailComponent';
 
 class Menu extends Component {
 
@@ -14,64 +12,22 @@ class Menu extends Component {
         }
     }
 
-    onDishSelect(dish) {
-        this.setState({ selectedDish: dish});
-    }
-
-    renderComments(dish) {
-        console.log(dish);
-        if(dish != null) {
-        const dishComments = dish.comments.map((info) => {
-            const newDate = info.date.slice(0,10);
-            return (
-                <CardText>{info.comment}<br></br>
-                -- {info.author}, {newDate}</CardText>              
-            );
-        });
-        return (
-            <Card>
-                <CardBody>
-                    <CardHeader><h4>Comments</h4></CardHeader>
-                    {dishComments}
-                </CardBody>
-            </Card>
-        );
-        } else {
-            return(
-                <div></div>
-            )
-        }
-}
-
-    renderDish(dish) {
-        if (dish != null) {
-            return(
-                <Card>
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
-                    <CardBody>
-                      <CardTitle>{dish.name}</CardTitle>
-                      <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
-            );
-            }
-        else
-            return(
-                <div></div>
-            );
-    }
-
     render() {
+
         const menu = this.props.dishes.map((dish) => {
             return (
-              <div  className="col-12 col-md-5 mt-1">
-                <Card onClick={() => this.onDishSelect(dish)}>
-                  <CardImg width="100%" src={dish.image} alt={dish.name} />
-                  <CardImgOverlay>
-                      <CardTitle>{dish.name}</CardTitle>
-                  </CardImgOverlay>
-                </Card>
-              </div>
+                <div key={dish.id} className="col-12 col-md-5 m-1">
+                    <Card 
+                        onClick={() => { this.setState({ 
+                            selectedDish: dish })
+                            }
+                        }>
+                        <CardImg width="100%" src={dish.image} alt={dish.name} />
+                        <CardImgOverlay>
+                        <CardTitle>{dish.name}</CardTitle>
+                        </CardImgOverlay>
+                    </Card>
+                </div>
             );
         });
 
@@ -79,13 +35,8 @@ class Menu extends Component {
             <div className="container">
                 <div className="row">
                     {menu}
-                    <div className="col-12 col-md-5 mt-1">
-                        {this.renderDish(this.state.selectedDish)}
-                    </div>
-                    <div className="col-12 col-md-5 mt-1">
-                        {this.renderComments(this.state.selectedDish)}
-                    </div>
                 </div>
+                <DishDetail selectedDish={this.state.selectedDish}/>
             </div>
         );
     }
