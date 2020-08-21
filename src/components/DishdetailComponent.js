@@ -54,7 +54,7 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
         }
     }
 
-class DishDetail extends Component  {
+class CommentForm extends Component  {
 
     constructor(props){
         super(props);
@@ -72,7 +72,7 @@ class DishDetail extends Component  {
         // event.preventDefault();
     }
 
-    CommentForm (){
+    render (){
         return(
             <div>
                 <Button outline onClick={this.toggleModal}>
@@ -144,33 +144,33 @@ class DishDetail extends Component  {
             isModalOpen: !this.state.isModalOpen,
         });
     }
+}
 
-    render(){
+    function DishDetail (props){
         /* receive props from Main*/
         return (
             <div className="container">
             <div className="row">
                 <Breadcrumb>
                     <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
-                    <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+                    <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
                 </Breadcrumb>
                 <div className="col-12">
-                    <h3>{this.props.dish.name}</h3>
+                    <h3>{props.dish.name}</h3>
                     <hr />
                 </div>                
             </div>
             <div className="row">
                 <div className="col-12 col-md-5 m-1">
-                    <RenderDish dish={this.props.dish} />
+                    <RenderDish dish={props.dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={this.props.comments} />
-                    {this.CommentForm()}
+                    <RenderComments comments={props.comments} />
+                    <CommentForm/>
                 </div>
             </div>
             </div>
         );
     }
-}
 
 export default DishDetail;
