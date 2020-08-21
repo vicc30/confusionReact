@@ -29,7 +29,7 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
         }
     }
 
-    function RenderComments({comments}) {
+    function RenderComments({comments, addComment, dishId}) {
         let options = {year: "numeric", month: "short", day: "numeric"};
         if (comments != null) {
             const comment = comments.map((commentEach) => {
@@ -44,6 +44,7 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
                 <div className="col-12">
                     <h4 className="header">Comments</h4>
                     {comment} 
+                    <CommentForm dishId={dishId} addComment={addComment} />
                 </div>
             );
         }
@@ -68,8 +69,7 @@ class CommentForm extends Component  {
 
     handleSubmit(values) {
         console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
-        // event.preventDefault();
+        this.props.addComment( this.props.dishId, values.rating, values.author, values.comments );
     }
 
     render (){
@@ -96,9 +96,9 @@ class CommentForm extends Component  {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="name" md={12}>Name</Label>
+                                <Label htmlFor="author" md={12}>Name</Label>
                                 <Col md={12}>
-                                    <Control.text model=".name" id="name" name="name"
+                                    <Control.text model=".author" id="author" name="author"
                                         placeholder="Name"
                                         className="form-control"
                                         validators={{
@@ -107,7 +107,7 @@ class CommentForm extends Component  {
                                          />
                                     <Errors 
                                         className="text-danger"
-                                        model=".name"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
@@ -118,9 +118,9 @@ class CommentForm extends Component  {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="comment" md={12}>Comment</Label>
+                                <Label htmlFor="comments" md={12}>Comment</Label>
                                 <Col md={12}>
-                                    <Control.textarea model=".comment" id="comment" name="comment"
+                                    <Control.textarea model=".comments" id="comments" name="comments"
                                         rows="6"
                                         className="form-control" />
                                 </Col>
@@ -165,8 +165,10 @@ class CommentForm extends Component  {
                     <RenderDish dish={props.dish} />
                 </div>
                 <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments} />
-                    <CommentForm/>
+                    <RenderComments comments={props.comments} 
+                        addComment={props.addComment}
+                        dishId={props.dish.id}
+                    />
                 </div>
             </div>
             </div>
