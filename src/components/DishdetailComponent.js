@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent'
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -13,7 +14,11 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
     function RenderDish({dish}) {
         if (dish != null) {
             return (
-                
+            <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
                 <Card>
                     <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                     <CardBody>
@@ -21,7 +26,7 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
                         <CardText>{dish.description}</CardText>
                     </CardBody>
                 </Card>
-                
+            </FadeTransform>
             );  
         }
         else {
@@ -34,20 +39,26 @@ const minLength = (len) => (val) => (val) && (val.length >= len);
     function RenderComments({comments, postComment, dishId}) {
         let options = {year: "numeric", month: "short", day: "numeric"};
         if (comments != null) {
-            const comment = comments.map((commentEach) => {
-                return (
-                    <ul key={commentEach.id} className="list-unstyled">
-                        <li>{commentEach.comment}</li>
-                        <li>-- {commentEach.author}, {new Date(commentEach.date).toLocaleDateString("en-US", options)}</li>
-                    </ul>
-                );
-            });
             return (
-                <div className="col-12">
+                <div className="col-12 col-md-5 m-1">
                     <h4 className="header">Comments</h4>
-                    {comment} 
+                    <ul className="list-unstyled">
+                        <Stagger in>
+                            {comments.map((comment) => {
+                                return (
+                                    <Fade in>
+                                    <li key={comment.id}>
+                                    <p>{comment.comment}</p>
+                                    <p>-- {comment.author} , {new Date(comment.date).toLocaleDateString("en-US", options)}</p>
+                                    </li>
+                                    </Fade>
+                                );
+                            })}
+                        </Stagger>
+                    </ul> 
                     <CommentForm dishId={dishId} postComment={postComment} />
                 </div>
+                
             );
         }
         else {
@@ -184,12 +195,11 @@ const DishDetail = (props) =>{
                 <div className="col-12 col-md-5 m-1">
                     <RenderDish dish={props.dish} />
                 </div>
-                <div className="col-12 col-md-5 m-1">
-                    <RenderComments comments={props.comments} 
+                <RenderComments comments={props.comments} 
                         postComment={props.postComment}
                         dishId={props.dish.id}
                     />
-                </div>
+                
             </div>
         </div>
     );
